@@ -59,7 +59,7 @@ public class TabPaneGetPanel implements TablePane {
         treeView.setCellFactory(new Callback<TreeView, TreeCell>() {
             @Override
             public TreeCell call(TreeView param) {
-                return new TreeViewCellPtk();
+                return new TreeViewCellPtk( );
             }
         });
     }

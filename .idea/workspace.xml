@@ -112,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/goncharov/application/panels/tabPane/tabPaneImpl/TabPaneGetPanel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="395">
-              <caret line="61" column="43" selection-start-line="61" selection-start-column="43" selection-end-line="61" selection-end-column="43" />
+              <caret line="61" column="44" selection-start-line="61" selection-start-column="44" selection-end-line="61" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -232,7 +232,7 @@
       </PATH>
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
     <option name="width" value="2125" />
@@ -398,7 +398,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583960546786" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583961113719" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL&#10;DDL Data Source" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -615,12 +615,12 @@
       <workItem from="1583744735477" duration="596000" />
       <workItem from="1583760531217" duration="379000" />
       <workItem from="1583760987775" duration="10325000" />
-      <workItem from="1583959978156" duration="567000" />
+      <workItem from="1583959978156" duration="1134000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56644000" />
+    <option name="totallyTimeSpent" value="57211000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -852,7 +852,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/goncharov/application/panels/tabPane/tabPaneImpl/TabPaneGetPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="395">
-          <caret line="61" column="43" selection-start-line="61" selection-start-column="43" selection-end-line="61" selection-end-column="43" />
+          <caret line="61" column="44" selection-start-line="61" selection-start-column="44" selection-end-line="61" selection-end-column="44" />
         </state>
       </provider>
     </entry>
