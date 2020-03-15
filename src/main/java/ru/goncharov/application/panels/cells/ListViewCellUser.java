@@ -13,6 +13,7 @@ import ru.goncharov.application.constants.CommonConstant;
 import ru.goncharov.application.controller.Controller;
 import ru.goncharov.application.entities.Project;
 import ru.goncharov.application.entities.User;
+import ru.goncharov.application.entities.cadElements.cadElementsImpl.Ptk;
 
 /**
  * Created on 28.02.2020.
@@ -37,23 +38,24 @@ public class ListViewCellUser extends ListCell<User> {
             checkBox.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+
                     updateAllChildCheckBoxes(user, checkBox.isSelected());
                 }
             });
         }
     }
 
-    private void updateAllChildCheckBoxes(User user, Boolean flag) {
+       private void updateAllChildCheckBoxes(User user, Boolean flag) {
         user.setIsSelectedCheckBox(flag);
         user.setAllChildElementSelectedFlag(flag);
 
         for (Project project : user.getListProjects()) {
             project.setCheckCheckBox(flag);
             project.setFlagTextFont(flag);
-//            for (Ptk ptk :  project.getListPanePtk().getPtkList()) {
-//                ptk.setSelected1(true);
-//                ptk.setSelected2(true);
-//            }
+            for (Ptk ptk :  project.getListPanePtk().getPtkList()) {
+                ptk.setSelected1(flag);
+                ptk.setSelected2(flag);
+            }
         }
         controller.reload();
         System.out.println(user.getUsername() + " checkBox нажат " + flag);

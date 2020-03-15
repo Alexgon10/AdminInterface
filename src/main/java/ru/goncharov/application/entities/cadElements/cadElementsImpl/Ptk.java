@@ -39,14 +39,6 @@ public class Ptk implements CadElement {
         updateAbonents=false;
     }
     /***18.11.19*/
-    Ptk(String ptkName,int ptk_id,boolean flag1,boolean flag2) {
-        this.ptkName = new SimpleStringProperty(ptkName);
-        this.ptkId=new SimpleIntegerProperty(ptk_id);
-        this.checkComboBox1 = new SimpleBooleanProperty(flag1);
-        this.checkComboBox2 = new SimpleBooleanProperty(flag2);
-        checkComboBox1= new SimpleBooleanProperty(false);
-        checkComboBox2 = new SimpleBooleanProperty(false);
-    }
 
     public String getName() {
         return ptkName.get();

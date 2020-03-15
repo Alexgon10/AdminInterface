@@ -16,6 +16,7 @@ import ru.goncharov.application.controller.Controller;
 import ru.goncharov.application.controller.Main;
 import ru.goncharov.application.entities.cadElements.CadElement;
 import ru.goncharov.application.entities.cadElements.cadElementsImpl.Ptk;
+import ru.goncharov.application.panels.cells.ListViewCellUser;
 import ru.goncharov.application.panels.cells.TreeViewCellPtk;
 import ru.goncharov.application.panels.tabPane.TablePane;
 
@@ -25,10 +26,11 @@ import ru.goncharov.application.panels.tabPane.TablePane;
 @Component
 public class TabPaneGetPanel implements TablePane {
 
-    private TreeView<Ptk> treeView;
+    private TreeView treeView;
     private ObservableList<Ptk> ptkList;
     private Controller controller;
-    MultipleSelectionModel<TreeItem<Ptk>> selectionModel;
+    private TreeItem<Ptk> rootItem;
+    private MultipleSelectionModel<TreeItem<Ptk>> selectionModel;
 
     @Autowired
     public TabPaneGetPanel(Controller controller) {
@@ -55,18 +57,12 @@ public class TabPaneGetPanel implements TablePane {
                 }
             }
         });
-
-        treeView.setCellFactory(new Callback<TreeView, TreeCell>() {
-            @Override
-            public TreeCell call(TreeView param) {
-                return new TreeViewCellPtk( );
-            }
-        });
+       reloadTree();
     }
 
 
     private void fillPtkTree(){
-        TreeItem<Ptk> rootItem  = new TreeItem<>(new Ptk("root", ""));
+         rootItem  = new TreeItem<>(new Ptk("root", ""));
         for (Ptk ptk :  ptkList ) {
             rootItem.getChildren().add(new TreeItem<>(ptk));
         }
@@ -74,6 +70,26 @@ public class TabPaneGetPanel implements TablePane {
         treeView.setPrefSize(CommonConstant.sceneWeight / 2.7, CommonConstant.sceneHeight);
         treeView.setShowRoot(false);
         selectionModel = treeView.getSelectionModel();
+    }
+
+    public void setPtkList(ObservableList<Ptk> ptkList) {
+        this.ptkList = ptkList;
+        rootItem.getChildren().clear();
+        for (int i = 0; i < ptkList.size(); i++) {
+            rootItem.getChildren().add(new TreeItem<Ptk>(ptkList.get(i)));
+//                for (int j=0;j< ptkList.get(i).getListPaneAbonents().getAbonentsList().size() ;j++){
+//                rootItem.getChildren().get(i).getChildren().add(new TreeItem(ptkList.get(i).getListPaneAbonents().getAbonentsList().get(j)));
+//                            }
+        }
+    }
+
+    public void reloadTree() {
+        treeView.setCellFactory(new Callback<TreeView, TreeCell>() {
+            @Override
+            public TreeCell call(TreeView param) {
+                return Main.context.getBean("treeViewCellPtk", TreeViewCellPtk.class);
+            }
+        });
     }
 
     public TreeView<CadElement> getTreeView() {

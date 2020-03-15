@@ -76,7 +76,7 @@ public class Query {
         return projects;
     }
 
-    public ObservableList<Ptk> getPtk(Ptk selectedPtk) throws Exception {
+    public ObservableList<Ptk> getPtk(Project selectedPtk) throws Exception {
         ObservableList<Ptk> ptkList = FXCollections.observableArrayList();
         for (int i=0;i<11;i++) {
             ptkList.add(new Ptk("Ptk ","schema ",new Random(10).nextInt(), false, true));
