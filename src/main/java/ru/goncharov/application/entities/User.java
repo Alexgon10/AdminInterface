@@ -14,13 +14,9 @@ import javafx.collections.ObservableList;
 public class User implements Entity {
 
     private ObservableList<Project> listProjects;
-
     private SimpleBooleanProperty isSelectedCheckBox;
-
     private SimpleStringProperty username;
-
     private SimpleIntegerProperty userId;
-
     private boolean allChildElementSelectedFlag;
 
 

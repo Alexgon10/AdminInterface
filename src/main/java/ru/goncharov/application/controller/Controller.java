@@ -1,14 +1,13 @@
 package ru.goncharov.application.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import ru.goncharov.application.entities.Project;
 import ru.goncharov.application.entities.User;
-import ru.goncharov.application.entities.cadElements.CadElement;
 import ru.goncharov.application.entities.cadElements.cadElementsImpl.Ptk;
 import ru.goncharov.application.panels.listPane.listPaneImpl.ListPaneProjects;
 import ru.goncharov.application.panels.listPane.listPaneImpl.ListPaneUsers;
+import ru.goncharov.application.panels.tabPane.tabPaneImpl.TabPaneGetPanel;
 import ru.goncharov.application.query.Query;
 
 /**
@@ -23,7 +22,7 @@ public class Controller {
     private User currentUser;
     private Project currentProject;
     private Ptk currentPtk;
-
+    private TabPaneGetPanel tabPaneGetPanel;
 
     @Autowired
     public Controller(Query query) {
@@ -33,10 +32,9 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    public void setUsersList() {
+    public void setUsersList()   {
         try {
             listPaneUsers.setEntitiesList(query.getUsers());  //запрос с БД и заполнение листа users
         } catch (Exception e) {
@@ -48,8 +46,7 @@ public class Controller {
         setCurrentUser(listPaneUsers.getEntitiesList().get(0));
         setCurrentProject(currentUser.getListProjects().get(0));
         listPaneProjects.setEntitiesList(currentUser.getListProjects());
-//        tabPaneGetPanel.setPtkList(currentUser.getListPaneProjects().getProjects().get(0).getListPanePtk().getPtkList());
-//        updatePtkList(currentProject);
+        tabPaneGetPanel.setPtkList(currentProject.getListPanePtk().getPtkList());
     }
 
     public void updateProjectList(User selectedUser) {
@@ -58,79 +55,85 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        /****/for (int i = 0; i < selectedUser.getListPaneProjects().getProjects().size(); i++) {
-//            updatePtkList(selectedUser.getListPaneProjects().getProjects().get(i));
-//        }
 
+        for (Project project :  selectedUser.getListProjects()) {
+            try {
+                updatePtkList(project);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void updatePtkList(Project selectedProject) throws Exception {
+        selectedProject.setListPanePtk(query.getPtk(selectedProject));
+        selectedProject.setUpdatePtk(true);
+//        for (int i = 0 ; i < selectedProject.getListPanePtk().getPtkList().size();i++){
+//            updateAbonentsList(selectedProject.getListPanePtk().getPtkList().get(i));
+//        }
     }
 
 
-
-
     public void checkLastSelectedCheckbox() {
-       /* boolean flagCombobox = false; // если хотя бы одна галочка стоит то true(для того чтобы выйти из проверки заранее если после  поставленной галочки будет хотя бы одна пустая)
+        boolean flagCombobox = false; // если хотя бы одна галочка стоит то true(для того чтобы выйти из проверки заранее если после  поставленной галочки будет хотя бы одна пустая)
         int count = 0;
         if (currentProject == null) {
             System.out.println("ОШИБКА В checkLastSelectedCheckbox ");
             return;
         }
-//        if (currentProject !=null){
-        for (int i = 0; i < currentUser.getListPaneProjects().getProjects().size(); i++) {
-            if (currentUser.getListPaneProjects().getProjects().get(i).getCheckComboBox()) {
-                currentUser.setCheckComboBox(true);
+        for ( Project project : currentUser.getListProjects()) {
+            if (project.getCheckCheckBox()) {
+                currentUser.setIsSelectedCheckBox(true);
                 flagCombobox = true;
                 count++;
-            } else if (flagCombobox == true) {
+            } else if (flagCombobox) {
                 break;
             }
         }
-//        else{
-//            System.out.println("ОШИБКА В checkLastSelectedCheckbox ");
-//            return;
-//        }
-        if (count == currentUser.getListPaneProjects().getProjects().size()) {
+        if (count == currentUser.getListProjects().size()) {
             currentUser.setAllChildElementSelectedFlag(true);
         } else currentUser.setAllChildElementSelectedFlag(false);
         if (!flagCombobox) {
-            currentUser.setCheckComboBox(false);
+            currentUser.setIsSelectedCheckBox(false);
         }
-//        RootPanel.reloadUserList(this);
-  */  }
+        listPaneUsers.reloadList();
 
-
-
+    }
 
     public void reload() {
         listPaneUsers.reloadList();
         listPaneProjects.reloadList();
+        tabPaneGetPanel.reloadTree();
     }
 
-    public void reload(User selectedUser ) {
+    public void reload(User selectedUser) {
         listPaneProjects.setEntitiesList(selectedUser.getListProjects());
         currentProject = selectedUser.getListProjects().get(0);
 //        tabPaneGetPanel.setPtkList(selectedUser.getListPaneProjects().getProjects().get(0).getListPanePtk().getPtkList());
     }
 
-    public void reload (Project selectedProject) {
-        listPaneProjects.reloadList();
-        if  (selectedProject.getPtkList().size()>0){
-            currentPtk = selectedProject.getPtkList().get(0);
-        }
-//        tabPaneGetPanel.setPtkList(selectedProject.getListPanePtk().getPtkList());
-    }
-
-
     public void setCurrentProject(Project project) {
         this.currentProject = project;
+    }
+
+    public void reload(Project selectedProject) {
+        tabPaneGetPanel.setPtkList(selectedProject.getListPanePtk().getPtkList());
+        listPaneProjects.reloadList();
+        tabPaneGetPanel.reloadTree();
+        if (selectedProject.getPtkList().size() > 0) {
+            currentPtk = selectedProject.getPtkList().get(0);
+        }
+    }
+
+    public void reloadPtk(Project selectedProject) {
+        listPaneProjects.reloadList();
+        tabPaneGetPanel.reloadTree();
     }
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
 
-    public void setCurrentPtk(CadElement ptk) {
-        this.currentPtk = ptk;
-    }
+    public void setCurrentPtk(Ptk ptk) { this.currentPtk = ptk; }
 
     @Autowired
     private void setListPaneUsers(ListPaneUsers listPaneUsers) {
@@ -138,8 +141,13 @@ public class Controller {
     }
 
     @Autowired
-    private void setListPaneProjects (ListPaneProjects listPaneProjects) {
+    private void setListPaneProjects(ListPaneProjects listPaneProjects) {
         this.listPaneProjects = listPaneProjects;
+    }
+
+    @Autowired
+    private void setTabPaneGetPanel(TabPaneGetPanel tabPaneGetPanel) {
+        this.tabPaneGetPanel=tabPaneGetPanel;
     }
 }
 

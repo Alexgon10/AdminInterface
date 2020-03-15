@@ -1,5 +1,4 @@
 package ru.goncharov.application.panels.listPane.listPaneImpl;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,7 +13,6 @@ import ru.goncharov.application.constants.CommonConstant;
 import ru.goncharov.application.controller.Controller;
 import ru.goncharov.application.controller.Main;
 import ru.goncharov.application.entities.Project;
-//import ru.goncharov.application.panels.cells.ListViewCellProject;
 import ru.goncharov.application.panels.cells.ListViewCellProject;
 import ru.goncharov.application.panels.listPane.ListPane;
 
@@ -42,10 +40,10 @@ public class ListPaneProjects implements ListPane<Project> {
                     controller.setCurrentProject(newValue);
                     if (!newValue.getUpdatePtk()) {
                         System.out.println("loadPtkForUser");
-//                        controller.updatePtkList(newValue);
+                        controller.updatePtkList(newValue);
                     }
                     System.out.println("reload");
-//                    controller.reloadPtkList(newValue);
+                    controller.reload(newValue);
 
                 } catch (Exception e) {
                     e.printStackTrace();

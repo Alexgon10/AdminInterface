@@ -29,7 +29,9 @@ public class ListViewCellProject extends ListCell<Project> {
     @Override
     public void updateItem(Project project, boolean empty) {
         super.updateItem(project, empty);
-        if (project==null) { return; }
+        if (project == null) {
+            return;
+        }
         if (empty) {
             setGraphic(null);
             return;
@@ -38,40 +40,33 @@ public class ListViewCellProject extends ListCell<Project> {
         checkBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (checkBox.isSelected()) {
-                    updateAllChildCheckBoxes(project,checkBox.isSelected());
-//                    controller.checkLastSelectedCheckbox();
-                    //TODO :    controller.checkLastSelectedCheckbox();  //проверка если выбрана последняя то подсветить пользователя
-                    //TODO: добавить всплывающее окно с подтверждением установки всех галочек во всех проектах у пользователя
+                updateAllChildCheckBoxes(project, checkBox.isSelected());
 
-                    System.out.println(project.getUsername() + " " + " cb нажат " + project.getProjectId());
-                } else {
-                    System.out.println(project.getUsername() + " " + " cb снят " + project.getProjectId());
-//                    controller.checkLastSelectedCheckbox();
+                //TODO :    controller.checkLastSelectedCheckbox();  //проверка если выбрана последняя то подсветить пользователя
+                //TODO: добавить всплывающее окно с подтверждением установки всех галочек во всех проектах у пользователя
 
-                    updateAllChildCheckBoxes(project,checkBox.isSelected());
-                }
             }
         });
 
 
-        }
+    }
 
     private void updateAllChildCheckBoxes(Project project, Boolean flag) {
         project.setCheckCheckBox(flag);
         project.setFlagTextFont(flag);
+        controller.checkLastSelectedCheckbox();
 //        if (project.getPtkList()==null){return;}
         //TODO : проверить если не загружены ptk , то загрузить
-        for (Ptk ptk :  project.getPtkList()) {
-            ptk.setSelected1(true);
-            ptk.setSelected2(true);
+        for (Ptk ptk :project.getListPanePtk().getPtkList()) {
+            ptk.setSelected1(flag);
+            ptk.setSelected2(flag);
         }
 
-        controller.reload(project);
+        controller.reloadPtk(project);
         System.out.println(project.getUsername() + " checkBox нажат " + flag);
     }
 
-    private void createCell (Project project) {
+    private void createCell(Project project) {
         Label label = new Label();
         HBox hBox = new HBox();
         checkBox = new CheckBox();
@@ -81,7 +76,7 @@ public class ListViewCellProject extends ListCell<Project> {
         hBox.getChildren().addAll(checkBox, label);
         setGraphic(hBox);
     }
+//TODO: можно проверять последний элемент счетчиком, добавляя при каждой галочке ++ и потом сравнивать вместо того чтобы пробегаться по коллекции с дочерними элементами!
 }
 
 
-//TODO: можно проверять последний элемент счетчиком, добавляя при каждой галочке ++ и потом сравнивать вместо того чтобы пробегаться по коллекции с дочерними элементами!
